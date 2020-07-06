@@ -62,13 +62,13 @@
             // 
             this.textBoxOriginal.Location = new System.Drawing.Point(126, 29);
             this.textBoxOriginal.Name = "textBoxOriginal";
-            this.textBoxOriginal.Size = new System.Drawing.Size(662, 22);
+            this.textBoxOriginal.Size = new System.Drawing.Size(1024, 22);
             this.textBoxOriginal.TabIndex = 2;
             // 
             // labelTargets
             // 
             this.labelTargets.AutoSize = true;
-            this.labelTargets.Location = new System.Drawing.Point(12, 69);
+            this.labelTargets.Location = new System.Drawing.Point(12, 313);
             this.labelTargets.Name = "labelTargets";
             this.labelTargets.Size = new System.Drawing.Size(83, 17);
             this.labelTargets.TabIndex = 3;
@@ -76,7 +76,7 @@
             // 
             // buttonTargets
             // 
-            this.buttonTargets.Location = new System.Drawing.Point(12, 89);
+            this.buttonTargets.Location = new System.Drawing.Point(12, 333);
             this.buttonTargets.Name = "buttonTargets";
             this.buttonTargets.Size = new System.Drawing.Size(107, 23);
             this.buttonTargets.TabIndex = 4;
@@ -87,44 +87,44 @@
             // checkedListBoxTargets
             // 
             this.checkedListBoxTargets.FormattingEnabled = true;
-            this.checkedListBoxTargets.Location = new System.Drawing.Point(125, 89);
+            this.checkedListBoxTargets.Location = new System.Drawing.Point(125, 333);
             this.checkedListBoxTargets.Name = "checkedListBoxTargets";
-            this.checkedListBoxTargets.Size = new System.Drawing.Size(662, 140);
+            this.checkedListBoxTargets.Size = new System.Drawing.Size(1025, 140);
             this.checkedListBoxTargets.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(15, 394);
+            this.button1.Location = new System.Drawing.Point(12, 82);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(105, 23);
             this.button1.TabIndex = 6;
-            this.button1.Text = "Test";
+            this.button1.Text = "Load";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBoxPreview
             // 
-            this.textBoxPreview.Location = new System.Drawing.Point(126, 258);
+            this.textBoxPreview.Location = new System.Drawing.Point(126, 82);
             this.textBoxPreview.Multiline = true;
             this.textBoxPreview.Name = "textBoxPreview";
-            this.textBoxPreview.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxPreview.Size = new System.Drawing.Size(662, 159);
+            this.textBoxPreview.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.textBoxPreview.Size = new System.Drawing.Size(1024, 215);
             this.textBoxPreview.TabIndex = 7;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(123, 238);
+            this.label1.Location = new System.Drawing.Point(123, 62);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(57, 17);
+            this.label1.Size = new System.Drawing.Size(98, 17);
             this.label1.TabIndex = 8;
-            this.label1.Text = "Preview";
+            this.label1.Text = "Preview/Editor";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 430);
+            this.ClientSize = new System.Drawing.Size(1162, 701);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxPreview);
             this.Controls.Add(this.button1);

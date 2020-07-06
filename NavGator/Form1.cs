@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 namespace NavGator
 {
@@ -184,8 +185,11 @@ namespace NavGator
 
 
                     string[] lines = list.ToArray();
+
+
+                    string origFileDir = Path.GetDirectoryName(textBoxOriginal.Text);
                     string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "WriteLines.txt")))
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "echoNAV.txt")))
                     {
                         foreach (string line in lines)
                             outputFile.WriteLine(line);
