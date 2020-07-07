@@ -34,7 +34,7 @@
             this.labelTargets = new System.Windows.Forms.Label();
             this.buttonTargets = new System.Windows.Forms.Button();
             this.checkedListBoxTargets = new System.Windows.Forms.CheckedListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonLoad = new System.Windows.Forms.Button();
             this.textBoxPreview = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.labelStartLine = new System.Windows.Forms.Label();
@@ -44,6 +44,8 @@
             this.labelTargetFolder = new System.Windows.Forms.Label();
             this.textBoxTargetFolder = new System.Windows.Forms.TextBox();
             this.buttonTargetFolder = new System.Windows.Forms.Button();
+            this.buttonOriginalOpenFolder = new System.Windows.Forms.Button();
+            this.buttonOpenOutputFolder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonOriginal
@@ -67,7 +69,7 @@
             // 
             // textBoxOriginal
             // 
-            this.textBoxOriginal.Location = new System.Drawing.Point(126, 29);
+            this.textBoxOriginal.Location = new System.Drawing.Point(128, 29);
             this.textBoxOriginal.Name = "textBoxOriginal";
             this.textBoxOriginal.Size = new System.Drawing.Size(1024, 22);
             this.textBoxOriginal.TabIndex = 2;
@@ -75,7 +77,7 @@
             // labelTargets
             // 
             this.labelTargets.AutoSize = true;
-            this.labelTargets.Location = new System.Drawing.Point(12, 369);
+            this.labelTargets.Location = new System.Drawing.Point(13, 484);
             this.labelTargets.Name = "labelTargets";
             this.labelTargets.Size = new System.Drawing.Size(83, 17);
             this.labelTargets.TabIndex = 3;
@@ -83,9 +85,9 @@
             // 
             // buttonTargets
             // 
-            this.buttonTargets.Location = new System.Drawing.Point(12, 389);
+            this.buttonTargets.Location = new System.Drawing.Point(13, 504);
             this.buttonTargets.Name = "buttonTargets";
-            this.buttonTargets.Size = new System.Drawing.Size(107, 23);
+            this.buttonTargets.Size = new System.Drawing.Size(107, 28);
             this.buttonTargets.TabIndex = 4;
             this.buttonTargets.Text = "Select Files...";
             this.buttonTargets.UseVisualStyleBackColor = true;
@@ -94,24 +96,24 @@
             // checkedListBoxTargets
             // 
             this.checkedListBoxTargets.FormattingEnabled = true;
-            this.checkedListBoxTargets.Location = new System.Drawing.Point(125, 389);
+            this.checkedListBoxTargets.Location = new System.Drawing.Point(128, 504);
             this.checkedListBoxTargets.Name = "checkedListBoxTargets";
             this.checkedListBoxTargets.Size = new System.Drawing.Size(1025, 140);
             this.checkedListBoxTargets.TabIndex = 5;
             // 
-            // button1
+            // buttonLoad
             // 
-            this.button1.Location = new System.Drawing.Point(12, 58);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(105, 23);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Load";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.buttonLoad.Location = new System.Drawing.Point(12, 63);
+            this.buttonLoad.Name = "buttonLoad";
+            this.buttonLoad.Size = new System.Drawing.Size(107, 23);
+            this.buttonLoad.TabIndex = 6;
+            this.buttonLoad.Text = "Load";
+            this.buttonLoad.UseVisualStyleBackColor = true;
+            this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
             // textBoxPreview
             // 
-            this.textBoxPreview.Location = new System.Drawing.Point(125, 112);
+            this.textBoxPreview.Location = new System.Drawing.Point(128, 117);
             this.textBoxPreview.Multiline = true;
             this.textBoxPreview.Name = "textBoxPreview";
             this.textBoxPreview.ScrollBars = System.Windows.Forms.ScrollBars.Both;
@@ -122,7 +124,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(123, 61);
+            this.label1.Location = new System.Drawing.Point(125, 66);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(112, 17);
             this.label1.TabIndex = 8;
@@ -131,7 +133,7 @@
             // labelStartLine
             // 
             this.labelStartLine.AutoSize = true;
-            this.labelStartLine.Location = new System.Drawing.Point(123, 87);
+            this.labelStartLine.Location = new System.Drawing.Point(125, 92);
             this.labelStartLine.Name = "labelStartLine";
             this.labelStartLine.Size = new System.Drawing.Size(69, 17);
             this.labelStartLine.TabIndex = 9;
@@ -140,7 +142,7 @@
             // labelEndLine
             // 
             this.labelEndLine.AutoSize = true;
-            this.labelEndLine.Location = new System.Drawing.Point(361, 87);
+            this.labelEndLine.Location = new System.Drawing.Point(336, 92);
             this.labelEndLine.Name = "labelEndLine";
             this.labelEndLine.Size = new System.Drawing.Size(64, 17);
             this.labelEndLine.TabIndex = 10;
@@ -148,14 +150,14 @@
             // 
             // textBoxStartLine
             // 
-            this.textBoxStartLine.Location = new System.Drawing.Point(198, 84);
+            this.textBoxStartLine.Location = new System.Drawing.Point(198, 89);
             this.textBoxStartLine.Name = "textBoxStartLine";
             this.textBoxStartLine.Size = new System.Drawing.Size(100, 22);
             this.textBoxStartLine.TabIndex = 11;
             // 
             // textBoxEndLine
             // 
-            this.textBoxEndLine.Location = new System.Drawing.Point(431, 84);
+            this.textBoxEndLine.Location = new System.Drawing.Point(406, 89);
             this.textBoxEndLine.Name = "textBoxEndLine";
             this.textBoxEndLine.Size = new System.Drawing.Size(100, 22);
             this.textBoxEndLine.TabIndex = 12;
@@ -163,34 +165,56 @@
             // labelTargetFolder
             // 
             this.labelTargetFolder.AutoSize = true;
-            this.labelTargetFolder.Location = new System.Drawing.Point(12, 552);
+            this.labelTargetFolder.Location = new System.Drawing.Point(13, 369);
             this.labelTargetFolder.Name = "labelTargetFolder";
-            this.labelTargetFolder.Size = new System.Drawing.Size(94, 17);
+            this.labelTargetFolder.Size = new System.Drawing.Size(95, 17);
             this.labelTargetFolder.TabIndex = 13;
-            this.labelTargetFolder.Text = "Target Folder";
+            this.labelTargetFolder.Text = "Output Folder";
             // 
             // textBoxTargetFolder
             // 
-            this.textBoxTargetFolder.Location = new System.Drawing.Point(126, 577);
+            this.textBoxTargetFolder.Location = new System.Drawing.Point(237, 393);
             this.textBoxTargetFolder.Name = "textBoxTargetFolder";
-            this.textBoxTargetFolder.Size = new System.Drawing.Size(1023, 22);
+            this.textBoxTargetFolder.Size = new System.Drawing.Size(911, 22);
             this.textBoxTargetFolder.TabIndex = 14;
             // 
             // buttonTargetFolder
             // 
-            this.buttonTargetFolder.Location = new System.Drawing.Point(12, 577);
+            this.buttonTargetFolder.Location = new System.Drawing.Point(14, 389);
             this.buttonTargetFolder.Name = "buttonTargetFolder";
-            this.buttonTargetFolder.Size = new System.Drawing.Size(105, 23);
+            this.buttonTargetFolder.Size = new System.Drawing.Size(105, 31);
             this.buttonTargetFolder.TabIndex = 15;
             this.buttonTargetFolder.Text = "Select Folder";
             this.buttonTargetFolder.UseVisualStyleBackColor = true;
             this.buttonTargetFolder.Click += new System.EventHandler(this.buttonTargetFolder_Click);
+            // 
+            // buttonOriginalOpenFolder
+            // 
+            this.buttonOriginalOpenFolder.Location = new System.Drawing.Point(12, 117);
+            this.buttonOriginalOpenFolder.Name = "buttonOriginalOpenFolder";
+            this.buttonOriginalOpenFolder.Size = new System.Drawing.Size(107, 26);
+            this.buttonOriginalOpenFolder.TabIndex = 16;
+            this.buttonOriginalOpenFolder.Text = "Open Folder";
+            this.buttonOriginalOpenFolder.UseVisualStyleBackColor = true;
+            this.buttonOriginalOpenFolder.Click += new System.EventHandler(this.buttonOriginalOpenFolder_Click);
+            // 
+            // buttonOpenOutputFolder
+            // 
+            this.buttonOpenOutputFolder.Location = new System.Drawing.Point(125, 389);
+            this.buttonOpenOutputFolder.Name = "buttonOpenOutputFolder";
+            this.buttonOpenOutputFolder.Size = new System.Drawing.Size(106, 31);
+            this.buttonOpenOutputFolder.TabIndex = 17;
+            this.buttonOpenOutputFolder.Text = "Open Folder";
+            this.buttonOpenOutputFolder.UseVisualStyleBackColor = true;
+            this.buttonOpenOutputFolder.Click += new System.EventHandler(this.buttonOpenOutputFolder_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1162, 701);
+            this.Controls.Add(this.buttonOpenOutputFolder);
+            this.Controls.Add(this.buttonOriginalOpenFolder);
             this.Controls.Add(this.buttonTargetFolder);
             this.Controls.Add(this.textBoxTargetFolder);
             this.Controls.Add(this.labelTargetFolder);
@@ -200,7 +224,7 @@
             this.Controls.Add(this.labelStartLine);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxPreview);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.checkedListBoxTargets);
             this.Controls.Add(this.buttonTargets);
             this.Controls.Add(this.labelTargets);
@@ -210,6 +234,7 @@
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "NavGator v0.0";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,7 +248,7 @@
         private System.Windows.Forms.Label labelTargets;
         private System.Windows.Forms.Button buttonTargets;
         private System.Windows.Forms.CheckedListBox checkedListBoxTargets;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.TextBox textBoxPreview;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelStartLine;
@@ -233,6 +258,8 @@
         private System.Windows.Forms.Label labelTargetFolder;
         private System.Windows.Forms.TextBox textBoxTargetFolder;
         private System.Windows.Forms.Button buttonTargetFolder;
+        private System.Windows.Forms.Button buttonOriginalOpenFolder;
+        private System.Windows.Forms.Button buttonOpenOutputFolder;
     }
 }
 
