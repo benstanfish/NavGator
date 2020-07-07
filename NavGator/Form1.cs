@@ -55,6 +55,37 @@ namespace NavGator
             }
         }
 
+        public void ChooseFolder()
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                textBoxTargetFolder.Text = fbd.SelectedPath;
+            }
+            else if (textBoxOriginal.Text != "")
+            {
+                textBoxTargetFolder.Text = Path.GetDirectoryName(textBoxOriginal.Text);
+            }
+            else
+            {
+                textBoxTargetFolder.Text = "";
+            }
+        }
+
+        private bool FindNav(string fileName)
+        {
+            var lines = File.ReadAllLines(fileName);
+            bool aVal = false;
+            foreach (var line in lines)
+            {
+                if (line.Contains("<nav") || line.Contains("</nav>"))
+                {
+                    aVal = true;
+                }
+            }
+            return aVal;
+        }
+
         private static int FindStart(string fileName)
         {
             if (fileName == "")
@@ -129,18 +160,120 @@ namespace NavGator
 
         }
 
-        static string ReadMyLines(string file, int start, int end)
+        private void LoadLines()
         {
-            using (StreamReader sr = new StreamReader(file))
+            int start = FindStart(textBoxOriginal.Text) + 1;
+            int end = FindEnd(textBoxOriginal.Text) + 1;
+
+            textBoxStartLine.Text = start.ToString();
+            textBoxEndLine.Text = end.ToString();
+        }
+
+        private string[] BufferHead(string fileName)
+        {
+
+            int headLastLine = FindStart(fileName);
+            using (StreamReader file = new StreamReader(fileName))
             {
-                    for (int i = start; i < end; i++)
-                        sr.ReadLine();
-                    return sr.ReadLine();
+                    List<string> list = new List<string>();
+                    string temp = null;
+                    int i = 0;
+
+                    while ((temp = file.ReadLine()) != null)
+                    {
+                        if (i < headLastLine)
+                        {
+                            list.Add(temp);
+                        }
+                        i++;
+                    }
+
+                    string[] lines = list.ToArray();
+                    string origFileDir = Path.GetDirectoryName(fileName);
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "bufferHead.txt")))
+                    {
+                        foreach (string line in lines)
+                            outputFile.WriteLine(line);
+                    }
+                    
+                    file.Close();
+                return lines;
             }
+            
+        }
+
+        private string[] BufferTail(string fileName)
+        {
+
+            int tailFirstLine = FindEnd(fileName);
+            using (StreamReader file = new StreamReader(fileName))
+            {
+                List<string> list = new List<string>();
+                string temp = null;
+                int i = 0;
+
+                while ((temp = file.ReadLine()) != null)
+                {
+                    if (i > tailFirstLine)
+                    {
+                        list.Add(temp);
+                    }
+                    i++;
+                }
+
+                string[] lines = list.ToArray();
+                string origFileDir = Path.GetDirectoryName(fileName);
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "bufferTail.txt")))
+                {
+                    foreach (string line in lines)
+                        outputFile.WriteLine(line);
+                }
+                
+                file.Close();
+                return lines;
+            }
+
+            
+        }
+
+        private string[] BufferNav(string fileName)
+        {
+
+            int headLastLine = FindStart(fileName);
+            int tailFirstLine = FindEnd(fileName);
+            using (StreamReader file = new StreamReader(fileName))
+            {
+                List<string> list = new List<string>();
+                string temp = null;
+                int i = 0;
+                while ((temp = file.ReadLine()) != null)
+                {
+                    if (i > headLastLine - 1 && i < tailFirstLine + 1)
+                    {
+                        list.Add(temp);
+                    }
+                    i++;
+                }
+
+                string[] lines = list.ToArray();
+                string origFileDir = Path.GetDirectoryName(fileName);
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "bufferNav.txt")))
+                {
+                    foreach (string line in lines)
+                        outputFile.WriteLine(line);
+                }
+
+                file.Close();
+                return lines;
+            }
+
+
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+
+
+        private void EchoNav()
         {
             int start = FindStart(textBoxOriginal.Text);
             int end = FindEnd(textBoxOriginal.Text);
@@ -150,60 +283,81 @@ namespace NavGator
             }
             else
             {
-                //MessageBox.Show(start.ToString() + " to " + end.ToString());
+                // MessageBox.Show(start.ToString() + " to " + end.ToString());
                 using (StreamReader file = new StreamReader(textBoxOriginal.Text))
                 {
                     List<string> list = new List<string>();
-                    // string myText = null;
                     string temp = null;
                     int i = 0;
 
                     while ((temp = file.ReadLine()) != null)
                     {
-                        if (i > start -1 && i < end + 1)
+                        if (i > start - 1 && i < end + 1)
                         {
                             list.Add(temp);
                         }
                         i++;
                     }
 
-
-                    /*
-                    while ((temp = file.ReadLine()) != null)
-                    {
-                        if (i == start)
-                        {
-                            myText = temp;
-                        }
-                        else if (i > start && i < end + 1)
-                        {
-                            myText += "\r\n" + temp;
-                        }
-                        i++;
-                    }
-                    */
-
-
                     string[] lines = list.ToArray();
-
-
                     string origFileDir = Path.GetDirectoryName(textBoxOriginal.Text);
-                    string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                     using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "echoNAV.txt")))
                     {
                         foreach (string line in lines)
                             outputFile.WriteLine(line);
                     }
-
-
                     textBoxPreview.Text = string.Join("\r\n", lines);
                     file.Close();
                 }
-                 
+            }
+        }
+
+        private void WriteNewFile(string[] head, string[] nav, string[] tail, string targetFile, string targetFolder)
+        {
+            string myFile = Path.GetFileName(targetFile);
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(targetFolder, myFile)))
+            {
+                foreach (string line in head)
+                    outputFile.WriteLine(line);
+
+                foreach (string line in nav)
+                    outputFile.WriteLine(line);
+
+                foreach (string line in tail)
+                    outputFile.WriteLine(line);
             }
         }
 
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(FindNav(textBoxOriginal.Text));
+            if (FindNav(textBoxOriginal.Text) == false)
+            {
+                MessageBox.Show("No <Nav></Nav> Section Found!");
+                textBoxStartLine.Text = "";
+                textBoxEndLine.Text = "";
+                textBoxPreview.Text = "";
+            }
+            else
+            {
+                LoadLines();
 
+                string[] head = BufferHead(textBoxOriginal.Text);
+                string[] nav = BufferNav(@"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\_nav.html");
+                string[] tail = BufferTail(textBoxOriginal.Text);
+
+                string targetFile = @"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\_nav.html";
+
+                WriteNewFile(head, nav, tail, targetFile, textBoxTargetFolder.Text);
+                EchoNav();
+            }
+
+        }
+
+        private void buttonTargetFolder_Click(object sender, EventArgs e)
+        {
+            ChooseFolder();
+        }
     }
 }
