@@ -131,9 +131,9 @@ namespace NavGator
             }
         }
 
-        private string[] BufferHead(string fileName)
+        private string[] BufferHead(int lineNumber, string fileName)
         {
-            int headLastLine = FindLine("<nav", fileName);
+            
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> list = new List<string>();
@@ -141,7 +141,7 @@ namespace NavGator
                 int i = 0;
                 while ((temp = file.ReadLine()) != null)
                 {
-                    if (i < headLastLine)
+                    if (i < lineNumber)
                     {
                         list.Add(temp);
                     }
@@ -159,9 +159,8 @@ namespace NavGator
             }
         }
 
-        private string[] BufferTail(string fileName)
+        private string[] BufferTail(int lineNumber, string fileName)
         {
-            int tailFirstLine = FindLine("</nav>", fileName);
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> list = new List<string>();
@@ -169,7 +168,7 @@ namespace NavGator
                 int i = 0;
                 while ((temp = file.ReadLine()) != null)
                 {
-                    if (i > tailFirstLine)
+                    if (i > lineNumber)
                     {
                         list.Add(temp);
                     }
@@ -187,10 +186,9 @@ namespace NavGator
             }
         }
 
-        private string[] BufferNav(string fileName)
+        private string[] BufferNav(int start, int end, string fileName)
         {
-            int headLastLine = FindLine("<nav", fileName);
-            int tailFirstLine = FindLine("</nav>", fileName);
+            
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> list = new List<string>();
@@ -198,7 +196,7 @@ namespace NavGator
                 int i = 0;
                 while ((temp = file.ReadLine()) != null)
                 {
-                    if (i > headLastLine - 1 && i < tailFirstLine + 1)
+                    if (i > start - 1 && i < end + 1)
                     {
                         list.Add(temp);
                     }
@@ -215,7 +213,6 @@ namespace NavGator
                 return lines;
             }
         }
-
 
 
         private void EchoNav()
@@ -248,6 +245,7 @@ namespace NavGator
                             outputFile.WriteLine(line);
                     }
                     textBoxPreview.Text = string.Join("\r\n", lines);
+                 
                     file.Close();
                 }
             }
@@ -371,6 +369,52 @@ namespace NavGator
             {
                 Process.Start(textBoxTargetFolder.Text + "\\");
             }
+        }
+
+        private int[] TestTargetFile(string fileName)
+        {
+            // determines if TargetFile has <nav> or <body>
+            int navStart = FindLine("<nav", fileName);
+            int navEnd = FindLine("</nav>", fileName);
+            int body = FindLine("<body", fileName);
+            int[] ret = { navStart, navEnd, body };
+
+            return ret;
+        }
+
+        private void CycleTargets()
+        {
+
+            int start = FindLine("<nav", textBoxOriginal.Text);
+            int end = FindLine("</nav>", textBoxOriginal.Text);
+            string[] nav = BufferNav(start, end, textBoxOriginal.Text);
+
+            foreach (string item in checkedListBoxTargets.CheckedItems)
+            {
+                // Write code here to operate on each file
+                int[] vals = TestTargetFile(item);
+                string[] head;
+                string[] tail;
+                if (vals[0] > 0 && vals[1] > 0)
+                {
+                    head = BufferHead(vals[0], item);
+                    tail = BufferTail(vals[1], item);
+                }
+                else
+                {
+                    head = BufferHead(vals[2], item);
+                    tail = BufferTail(vals[2], item);
+                }
+
+                WriteNewFile(head, nav, tail, item, @"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\output\");
+                                
+            }
+
+        }
+
+        private void buttonCycle_Click(object sender, EventArgs e)
+        {
+            CycleTargets();
         }
     }
 }

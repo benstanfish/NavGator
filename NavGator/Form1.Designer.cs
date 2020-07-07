@@ -46,6 +46,7 @@
             this.buttonTargetFolder = new System.Windows.Forms.Button();
             this.buttonOriginalOpenFolder = new System.Windows.Forms.Button();
             this.buttonOpenOutputFolder = new System.Windows.Forms.Button();
+            this.buttonCycle = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // buttonOriginal
@@ -77,7 +78,7 @@
             // labelTargets
             // 
             this.labelTargets.AutoSize = true;
-            this.labelTargets.Location = new System.Drawing.Point(13, 484);
+            this.labelTargets.Location = new System.Drawing.Point(13, 438);
             this.labelTargets.Name = "labelTargets";
             this.labelTargets.Size = new System.Drawing.Size(83, 17);
             this.labelTargets.TabIndex = 3;
@@ -85,7 +86,7 @@
             // 
             // buttonTargets
             // 
-            this.buttonTargets.Location = new System.Drawing.Point(13, 504);
+            this.buttonTargets.Location = new System.Drawing.Point(13, 458);
             this.buttonTargets.Name = "buttonTargets";
             this.buttonTargets.Size = new System.Drawing.Size(107, 28);
             this.buttonTargets.TabIndex = 4;
@@ -96,9 +97,9 @@
             // checkedListBoxTargets
             // 
             this.checkedListBoxTargets.FormattingEnabled = true;
-            this.checkedListBoxTargets.Location = new System.Drawing.Point(128, 504);
+            this.checkedListBoxTargets.Location = new System.Drawing.Point(128, 458);
             this.checkedListBoxTargets.Name = "checkedListBoxTargets";
-            this.checkedListBoxTargets.Size = new System.Drawing.Size(1025, 140);
+            this.checkedListBoxTargets.Size = new System.Drawing.Size(1025, 208);
             this.checkedListBoxTargets.TabIndex = 5;
             // 
             // buttonLoad
@@ -208,11 +209,22 @@
             this.buttonOpenOutputFolder.UseVisualStyleBackColor = true;
             this.buttonOpenOutputFolder.Click += new System.EventHandler(this.buttonOpenOutputFolder_Click);
             // 
+            // buttonCycle
+            // 
+            this.buttonCycle.Location = new System.Drawing.Point(14, 493);
+            this.buttonCycle.Name = "buttonCycle";
+            this.buttonCycle.Size = new System.Drawing.Size(105, 28);
+            this.buttonCycle.TabIndex = 18;
+            this.buttonCycle.Text = "Cycle";
+            this.buttonCycle.UseVisualStyleBackColor = true;
+            this.buttonCycle.Click += new System.EventHandler(this.buttonCycle_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1162, 701);
+            this.Controls.Add(this.buttonCycle);
             this.Controls.Add(this.buttonOpenOutputFolder);
             this.Controls.Add(this.buttonOriginalOpenFolder);
             this.Controls.Add(this.buttonTargetFolder);
@@ -233,7 +245,7 @@
             this.Controls.Add(this.buttonOriginal);
             this.Name = "Form1";
             this.ShowIcon = false;
-            this.Text = "NavGator v0.1";
+            this.Text = "NavGator v0.2";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -260,6 +272,7 @@
         private System.Windows.Forms.Button buttonTargetFolder;
         private System.Windows.Forms.Button buttonOriginalOpenFolder;
         private System.Windows.Forms.Button buttonOpenOutputFolder;
+        private System.Windows.Forms.Button buttonCycle;
     }
 }
 
