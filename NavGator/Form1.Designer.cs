@@ -104,13 +104,14 @@
             // 
             // buttonTargets
             // 
+            this.buttonTargets.BackColor = System.Drawing.Color.LemonChiffon;
             this.buttonTargets.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonTargets.Location = new System.Drawing.Point(29, 465);
             this.buttonTargets.Name = "buttonTargets";
             this.buttonTargets.Size = new System.Drawing.Size(120, 34);
             this.buttonTargets.TabIndex = 4;
             this.buttonTargets.Text = "Select Files...";
-            this.buttonTargets.UseVisualStyleBackColor = true;
+            this.buttonTargets.UseVisualStyleBackColor = false;
             this.buttonTargets.Click += new System.EventHandler(this.buttonTargets_Click);
             // 
             // checkedListBoxTargets
@@ -125,14 +126,14 @@
             // 
             // buttonLoad
             // 
-            this.buttonLoad.BackColor = System.Drawing.Color.LemonChiffon;
+            this.buttonLoad.BackColor = System.Drawing.SystemColors.Control;
             this.buttonLoad.Cursor = System.Windows.Forms.Cursors.AppStarting;
             this.buttonLoad.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonLoad.Location = new System.Drawing.Point(29, 127);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(120, 34);
             this.buttonLoad.TabIndex = 6;
-            this.buttonLoad.Text = "Load";
+            this.buttonLoad.Text = "Preview";
             this.buttonLoad.UseVisualStyleBackColor = false;
             this.buttonLoad.Click += new System.EventHandler(this.buttonLoad_Click);
             // 
@@ -206,13 +207,14 @@
             // 
             // buttonTargetFolder
             // 
+            this.buttonTargetFolder.BackColor = System.Drawing.Color.NavajoWhite;
             this.buttonTargetFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonTargetFolder.Location = new System.Drawing.Point(29, 396);
             this.buttonTargetFolder.Name = "buttonTargetFolder";
             this.buttonTargetFolder.Size = new System.Drawing.Size(120, 34);
             this.buttonTargetFolder.TabIndex = 15;
             this.buttonTargetFolder.Text = "Select Folder";
-            this.buttonTargetFolder.UseVisualStyleBackColor = true;
+            this.buttonTargetFolder.UseVisualStyleBackColor = false;
             this.buttonTargetFolder.Click += new System.EventHandler(this.buttonTargetFolder_Click);
             // 
             // buttonOriginalOpenFolder
@@ -239,7 +241,7 @@
             // 
             // buttonCycle
             // 
-            this.buttonCycle.BackColor = System.Drawing.Color.LightGreen;
+            this.buttonCycle.BackColor = System.Drawing.Color.PaleGreen;
             this.buttonCycle.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonCycle.Location = new System.Drawing.Point(29, 639);
             this.buttonCycle.Name = "buttonCycle";
@@ -270,7 +272,7 @@
             this.exitToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 30);
             this.menuStrip1.TabIndex = 20;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -377,6 +379,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1200, 686);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -404,9 +407,12 @@
             this.Controls.Add(this.labelOriginal);
             this.Controls.Add(this.buttonOriginal);
             this.Controls.Add(this.menuStrip1);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NavGator v0.4";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
