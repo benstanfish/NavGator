@@ -19,6 +19,7 @@ namespace NavGator
         public Form1()
         {
             InitializeComponent();
+            InitialButtons();
         }
 
         private void buttonOriginal_Click(object sender, EventArgs e)
@@ -35,6 +36,8 @@ namespace NavGator
                 string selectedFileName = openFileDialog1.FileName;
                 textBoxOriginal.Text = selectedFileName;
             }
+
+            
         }
 
         private void buttonTargets_Click(object sender, EventArgs e)
@@ -45,7 +48,7 @@ namespace NavGator
             openFileDialog1.Filter = "HTML files (*.htm, *.html)|*.htm;*.html;";
             openFileDialog1.FilterIndex = 0;
             openFileDialog1.Multiselect = true;
-            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.RestoreDirectory = false;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -55,6 +58,8 @@ namespace NavGator
                     checkedListBoxTargets.SetItemChecked(i, true);
                 }
             }
+
+            TestForCycle();
         }
 
 
@@ -215,13 +220,13 @@ namespace NavGator
             }
         }
 
-
-        private void EchoNav()
+        private string[] PreviewNav()
         {
             int start = FindLine("<nav", textBoxOriginal.Text);
             int end = FindLine("</nav>", textBoxOriginal.Text);
             if (start < 1)
             {
+                return new string[0];
             }
             else
             {
@@ -239,16 +244,27 @@ namespace NavGator
                         i++;
                     }
                     string[] lines = list.ToArray();
+                    /*
                     string origFileDir = Path.GetDirectoryName(textBoxOriginal.Text);
-                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "echo.log")))
+                    using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "_echo.log")))
                     {
                         foreach (string line in lines)
                             outputFile.WriteLine(line);
                     }
+                    */
                     textBoxPreview.Text = string.Join("\r\n", lines);
-                 
                     file.Close();
+                    return lines;
                 }
+            }
+        }
+
+        private void PreLoad()
+        {
+            if (textBoxTargetFolder.Text == "")
+            {
+                String destDir = Path.GetDirectoryName(textBoxOriginal.Text) + @"\";
+                textBoxTargetFolder.Text = destDir;
             }
         }
 
@@ -296,18 +312,8 @@ namespace NavGator
             else
             {
                 LoadLines();
-
-                /*
-                string[] head = BufferHead(textBoxOriginal.Text);
-                string[] nav = BufferNav(@"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\_nav.html");
-                string[] tail = BufferTail(textBoxOriginal.Text);
-
-                string targetFile = @"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\_nav.html";
-
-                WriteNewFile(head, nav, tail, targetFile, textBoxTargetFolder.Text);
-                */
-
-                EchoNav();
+                PreviewNav();
+                PreLoad();
             }
             
         }
@@ -358,17 +364,16 @@ namespace NavGator
                 Process.Start("explorer.exe", filePath);
             }
         }
-
         private void buttonOriginalOpenFolder_Click(object sender, EventArgs e)
         {
-            OpenFolder(textBoxOriginal.Text);
+            OpenFolderOfFile(textBoxOriginal.Text);
         }
 
         private void buttonOpenOutputFolder_Click(object sender, EventArgs e)
         {
             if (textBoxTargetFolder.Text != "")
             {
-                Process.Start(textBoxTargetFolder.Text + "\\");
+                Process.Start(textBoxTargetFolder.Text + @"\");
             }
         }
 
@@ -444,6 +449,8 @@ namespace NavGator
             int end = FindLine("</nav>", textBoxOriginal.Text);
             string[] nav = BufferNav(start, end, textBoxOriginal.Text);
 
+            string newDir;
+
             foreach (string item in checkedListBoxTargets.CheckedItems)
             {
                 // Write code here to operate on each file
@@ -460,6 +467,8 @@ namespace NavGator
                     head = BufferHead(vals[2], item);
                     tail = BufferTail(vals[2], item);
                 }
+
+                
 
                 WriteNewFile(head, nav, tail, item, @"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\output\");
                                 
@@ -495,6 +504,104 @@ namespace NavGator
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void ClearAll()
+        {
+            textBoxOriginal.Text = "";
+            textBoxPreview.Text = "";
+            textBoxTargetFolder.Text = "";
+            checkedListBoxTargets.Items.Clear();
+        }
+
+        private void EnableButton(Button button, bool isEnabled)
+        {
+            if (isEnabled == true){
+                button.Enabled = true;
+            }
+            else
+            {
+                button.Enabled = false;
+            }
+        }
+
+        private void InitialButtons()
+        {
+            EnableButton(buttonLoad, false);
+            EnableButton(buttonTargetFolder, false);
+            EnableButton(buttonCycle, false);
+        }
+        
+        private void TestForOriginal()
+        {
+            if (textBoxOriginal.Text != "")
+            {
+                EnableButton(buttonLoad, true);
+                EnableButton(buttonTargetFolder, true);
+            }
+            else if (textBoxOriginal.Text == "")
+            {
+                EnableButton(buttonLoad, false);
+                EnableButton(buttonTargetFolder, false);
+            }
+        }
+        private void TestForCycle()
+        {
+            if (textBoxOriginal.Text != "" && textBoxTargetFolder.Text != "" && checkedListBoxTargets.CheckedItems.Count > 0)
+            {
+                EnableButton(buttonCycle, true);
+            }
+            else
+            {
+                EnableButton(buttonCycle, false);
+            }
+        }
+
+        private void UncheckAll()
+        {
+            while (checkedListBoxTargets.CheckedIndices.Count > 0)
+            {
+                checkedListBoxTargets.SetItemChecked(checkedListBoxTargets.CheckedIndices[0], false);
+            }
+                
+        }
+        private void CheckAll()
+        {
+            for (int i = 0; i < checkedListBoxTargets.Items.Count; i++)
+            {
+                checkedListBoxTargets.SetItemChecked(i, true);
+            }
+        }
+        private void resetAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ClearAll();
+        }
+        private void checkAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CheckAll();
+        }
+        private void checkNoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UncheckAll();
+        }
+
+        private void textBoxOriginal_TextChanged(object sender, EventArgs e)
+        {
+            TestForOriginal();
+        }
+
+        private void textBoxTargetFolder_TextChanged(object sender, EventArgs e)
+        {
+            TestForCycle();
+        }
+
+        private void checkedListBoxTargets_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TestForCycle();
         }
     }
 }
