@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
+using System.Text;
 
 namespace NavGator
 {
@@ -382,6 +383,60 @@ namespace NavGator
             return ret;
         }
 
+        private string FormattedNow()
+        {
+            string dt = DateTime.Now.ToString("yyyyMMddhhmmss");
+            Console.WriteLine(dt);
+            return dt;
+        }
+
+        private void MakeDir(string dirName)
+        {
+            System.IO.Directory.CreateDirectory(dirName);
+        }
+
+        private void DupFile(string sourceFile, string dir)
+        {
+            try
+            {
+                if (dir.Substring(dir.Length - 1) == @"\")
+                {
+                }
+                else
+                {
+                    dir = dir + @"\";
+                }
+                string destFile = dir + Path.GetFileName(sourceFile);
+                File.Copy(sourceFile, destFile, true);
+            }
+            catch (IOException iox)
+            {
+                Console.WriteLine(iox.Message);
+            }
+        }
+
+        private void CreateBackups(string[] files)
+        {
+            String destDir = Path.GetDirectoryName(textBoxOriginal.Text) + @"\" + FormattedNow() + @"_Backup\";
+            MakeDir(destDir);
+            foreach (string file in files)
+            {
+                DupFile(file, destDir);
+            }
+        }
+
+        private void TestCreateBackups()
+        {
+            String destDir = Path.GetDirectoryName(textBoxOriginal.Text) + @"\" + FormattedNow() + @"_Backup\";
+            Console.WriteLine(destDir);
+            MakeDir(destDir);
+            foreach (string item in checkedListBoxTargets.CheckedItems)
+            {
+                // Write code here to operate on each file
+                DupFile(item, destDir);
+            }
+        }
+
         private void CycleTargets()
         {
 
@@ -415,6 +470,31 @@ namespace NavGator
         private void buttonCycle_Click(object sender, EventArgs e)
         {
             CycleTargets();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
+            if (checkedListBoxTargets.CheckedItems.Count > 0)
+            {
+                TestCreateBackups();
+            }
+            else
+            {
+                MessageBox.Show("Please select files to be duplicated.");
+            }
+        }
+
+
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Form about = new Form2();
+            about.Show();
+        }
+
+        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
