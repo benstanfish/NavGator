@@ -233,7 +233,7 @@
             this.Controls.Add(this.buttonOriginal);
             this.Name = "Form1";
             this.ShowIcon = false;
-            this.Text = "NavGator v0.0";
+            this.Text = "NavGator v0.1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
