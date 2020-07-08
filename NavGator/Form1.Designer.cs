@@ -50,6 +50,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.buttonCheckAll = new System.Windows.Forms.Button();
             this.buttonCheckNone = new System.Windows.Forms.Button();
-            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -282,6 +282,13 @@
             this.aboutToolStripMenuItem1.Text = "Version";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
+            // resetAllToolStripMenuItem
+            // 
+            this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
+            this.resetAllToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
+            this.resetAllToolStripMenuItem.Text = "Clear All";
+            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllToolStripMenuItem_Click_1);
+            // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -356,13 +363,6 @@
             this.buttonCheckNone.UseVisualStyleBackColor = true;
             this.buttonCheckNone.Click += new System.EventHandler(this.buttonCheckNone_Click);
             // 
-            // resetAllToolStripMenuItem
-            // 
-            this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
-            this.resetAllToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
-            this.resetAllToolStripMenuItem.Text = "Clear All";
-            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllToolStripMenuItem_Click_1);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -403,7 +403,7 @@
             this.Name = "Form1";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NavGator v0.5";
+            this.Text = "NavGator v0.6";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

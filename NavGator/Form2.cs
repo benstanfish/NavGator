@@ -20,7 +20,7 @@ namespace NavGator
 
         private void Info()
         {
-            labelVersion.Text = "v0.5";
+            labelVersion.Text = "v0.6";
             labelDeveloper.Text = "Ben Fisher, Copyright (C) 2020, All Rights Reserved";
             textBoxAbout.Text = 
                 "This application copies the <nav></nav> data from a source " +

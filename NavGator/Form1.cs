@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Threading;
-using System.Text;
 
 namespace NavGator
 {
@@ -237,7 +236,7 @@ namespace NavGator
         {
             int start = FindLine("<nav", textBoxOriginal.Text);
             int end = FindLine("</nav>", textBoxOriginal.Text);
-            if (start < 1)
+            if (start < 0)
             {
                 return new string[0];
             }
