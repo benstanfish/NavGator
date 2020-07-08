@@ -131,7 +131,7 @@ namespace NavGator
             int start = FindLine("<nav", textBoxOriginal.Text) + 1;
             int end = FindLine("</nav>", textBoxOriginal.Text) + 1;
 
-            if (start < 1 || end < 1)
+            if (start < 0 || end < 0)
             {
                 textBoxStartLine.Text = "";
                 textBoxEndLine.Text = "";
