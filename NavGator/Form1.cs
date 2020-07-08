@@ -14,19 +14,24 @@ using System.Text;
 
 namespace NavGator
 {
+
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
             InitialButtons();
+
+            NavStatus.isNavFound = false;
         }
 
         private void buttonOriginal_Click(object sender, EventArgs e)
         {
+            ClearAll();
+
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "c:\\";
+
             openFileDialog1.Filter = "HTML files (*.htm, *.html)|*.htm;*.html;";
             openFileDialog1.FilterIndex = 0;
             openFileDialog1.RestoreDirectory = true;
@@ -35,16 +40,18 @@ namespace NavGator
             {
                 string selectedFileName = openFileDialog1.FileName;
                 textBoxOriginal.Text = selectedFileName;
+                buttonLoad.PerformClick();
             }
-
-            
         }
 
         private void buttonTargets_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "c:\\";
+            if (textBoxOriginal.Text != "")
+            {
+                openFileDialog1.InitialDirectory = Path.GetDirectoryName(textBoxOriginal.Text);
+            }
             openFileDialog1.Filter = "HTML files (*.htm, *.html)|*.htm;*.html;";
             openFileDialog1.FilterIndex = 0;
             openFileDialog1.Multiselect = true;
@@ -117,7 +124,7 @@ namespace NavGator
                     return -3;
                 }
             }
-            
+
         }
 
         private void LoadLines()
@@ -139,7 +146,7 @@ namespace NavGator
 
         private string[] BufferHead(int lineNumber, string fileName)
         {
-            
+
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> list = new List<string>();
@@ -154,6 +161,7 @@ namespace NavGator
                     i++;
                 }
                 string[] lines = list.ToArray();
+                /*
                 string origFileDir = Path.GetDirectoryName(fileName);
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "bufferHead.txt")))
                 {
@@ -161,6 +169,7 @@ namespace NavGator
                         outputFile.WriteLine(line);
                 }
                 file.Close();
+                */
                 return lines;
             }
         }
@@ -181,6 +190,7 @@ namespace NavGator
                     i++;
                 }
                 string[] lines = list.ToArray();
+                /*
                 string origFileDir = Path.GetDirectoryName(fileName);
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "bufferTail.txt")))
                 {
@@ -188,13 +198,14 @@ namespace NavGator
                         outputFile.WriteLine(line);
                 }
                 file.Close();
+                */
                 return lines;
             }
         }
 
         private string[] BufferNav(int start, int end, string fileName)
         {
-            
+
             using (StreamReader file = new StreamReader(fileName))
             {
                 List<string> list = new List<string>();
@@ -209,6 +220,7 @@ namespace NavGator
                     i++;
                 }
                 string[] lines = list.ToArray();
+                /*
                 string origFileDir = Path.GetDirectoryName(fileName);
                 using (StreamWriter outputFile = new StreamWriter(Path.Combine(origFileDir, "bufferNav.txt")))
                 {
@@ -216,6 +228,7 @@ namespace NavGator
                         outputFile.WriteLine(line);
                 }
                 file.Close();
+                */
                 return lines;
             }
         }
@@ -286,10 +299,11 @@ namespace NavGator
 
         private void buttonLoad_Click(object sender, EventArgs e)
         {
-            
+
             if (textBoxOriginal.Text == "")
             {
                 MessageBox.Show("No file was selected.");
+                NavStatus.isNavFound = false;
                 textBoxStartLine.Text = "";
                 textBoxEndLine.Text = "";
                 textBoxPreview.Text = "";
@@ -297,6 +311,7 @@ namespace NavGator
             else if (FindLine("<nav", textBoxOriginal.Text) == -2)
             {
                 MessageBox.Show("No <nav></nav> section found in file. Will search for <body>.");
+                NavStatus.isNavFound = false;
                 int body = FindLine("<body", textBoxOriginal.Text);
                 if (body > 0)
                 {
@@ -311,17 +326,23 @@ namespace NavGator
             }
             else
             {
+                NavStatus.isNavFound = true;
                 LoadLines();
                 PreviewNav();
                 PreLoad();
             }
-            
+
         }
 
 
-        public void ChooseFolder()
+        public void ChooseFolder(string path = "")
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (path != "")
+            {
+                fbd.SelectedPath = path;
+            }
+
             if (textBoxOriginal.Text != "")
             {
                 fbd.SelectedPath = Path.GetDirectoryName(textBoxOriginal.Text);
@@ -342,7 +363,7 @@ namespace NavGator
         }
         private void buttonTargetFolder_Click(object sender, EventArgs e)
         {
-            ChooseFolder();
+            ChooseFolder(textBoxOriginal.Text + @"\");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -444,16 +465,37 @@ namespace NavGator
 
         private void CycleTargets()
         {
-
+            DateTime st = DateTime.Now;
             int start = FindLine("<nav", textBoxOriginal.Text);
             int end = FindLine("</nav>", textBoxOriginal.Text);
             string[] nav = BufferNav(start, end, textBoxOriginal.Text);
+            string nowFormatted = FormattedNow();
+            string rootPrefix;
 
-            string newDir;
+            if (textBoxTargetFolder.Text != "")
+            {
+                rootPrefix = textBoxTargetFolder.Text + @"\";
+            }
+            else if (textBoxOriginal.Text != "")
+            {
+                rootPrefix = textBoxOriginal.Text + @"\";
+            }
+            else
+            {
+                MessageBox.Show("No destination folder selected.");
+                rootPrefix = textBoxOriginal.Text + @"\";
+            }
+
+            string backupDir = rootPrefix + nowFormatted + @"_backups\";
+            string editedDir = rootPrefix + nowFormatted + @"_edited\";
+            MakeDir(backupDir);
+            MakeDir(editedDir);
 
             foreach (string item in checkedListBoxTargets.CheckedItems)
             {
                 // Write code here to operate on each file
+                DupFile(item, backupDir);
+
                 int[] vals = TestTargetFile(item);
                 string[] head;
                 string[] tail;
@@ -461,19 +503,23 @@ namespace NavGator
                 {
                     head = BufferHead(vals[0], item);
                     tail = BufferTail(vals[1], item);
+                    WriteNewFile(head, nav, tail, item, editedDir);
+                }
+                else if (vals[2] > 0)
+                {
+                    head = BufferHead(vals[2] + 1, item);
+                    tail = BufferTail(vals[2], item);
+                    WriteNewFile(head, nav, tail, item, editedDir);
                 }
                 else
                 {
-                    head = BufferHead(vals[2], item);
-                    tail = BufferTail(vals[2], item);
+                    continue;
                 }
-
-                
-
-                WriteNewFile(head, nav, tail, item, @"C:\Users\benst\Documents\_JapaneseGrammar_ORG\_Experimental\output\");
-                                
             }
 
+            DateTime ed = DateTime.Now;
+            TimeSpan ts = ed - st;
+            MessageBox.Show("Files edited, job completed. Total time: " + ts.ToString("fff") + " msec.");
         }
 
         private void buttonCycle_Click(object sender, EventArgs e)
@@ -483,7 +529,7 @@ namespace NavGator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+
             if (checkedListBoxTargets.CheckedItems.Count > 0)
             {
                 TestCreateBackups();
@@ -520,7 +566,7 @@ namespace NavGator
 
         private void EnableButton(Button button, bool isEnabled)
         {
-            if (isEnabled == true){
+            if (isEnabled == true) {
                 button.Enabled = true;
             }
             else
@@ -535,7 +581,7 @@ namespace NavGator
             EnableButton(buttonTargetFolder, false);
             EnableButton(buttonCycle, false);
         }
-        
+
         private void TestForOriginal()
         {
             if (textBoxOriginal.Text != "")
@@ -551,7 +597,7 @@ namespace NavGator
         }
         private void TestForCycle()
         {
-            if (textBoxOriginal.Text != "" && textBoxTargetFolder.Text != "" && checkedListBoxTargets.CheckedItems.Count > 0)
+            if (textBoxOriginal.Text != "" && textBoxTargetFolder.Text != "" && checkedListBoxTargets.CheckedItems.Count > 0 && NavStatus.isNavFound == true)
             {
                 EnableButton(buttonCycle, true);
             }
@@ -567,7 +613,7 @@ namespace NavGator
             {
                 checkedListBoxTargets.SetItemChecked(checkedListBoxTargets.CheckedIndices[0], false);
             }
-                
+
         }
         private void CheckAll()
         {
@@ -602,6 +648,21 @@ namespace NavGator
         private void checkedListBoxTargets_SelectedIndexChanged(object sender, EventArgs e)
         {
             TestForCycle();
+        }
+
+        private void buttonCheckAll_Click(object sender, EventArgs e)
+        {
+            CheckAll();
+        }
+
+        private void buttonCheckNone_Click(object sender, EventArgs e)
+        {
+            UncheckAll();
+        }
+
+        private void resetAllToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ClearAll();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,14 +21,12 @@ namespace NavGator
 
         }
 
-        
-
 
     }
 
-
-
-
-
+    static class NavStatus
+    {
+        public static bool isNavFound;
+    }
 
 }

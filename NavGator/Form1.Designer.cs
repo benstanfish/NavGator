@@ -49,11 +49,6 @@
             this.buttonCycle = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.targetFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
@@ -61,6 +56,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.buttonCheckAll = new System.Windows.Forms.Button();
+            this.buttonCheckNone = new System.Windows.Forms.Button();
+            this.resetAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,6 +116,7 @@
             // 
             this.checkedListBoxTargets.CheckOnClick = true;
             this.checkedListBoxTargets.FormattingEnabled = true;
+            this.checkedListBoxTargets.HorizontalScrollbar = true;
             this.checkedListBoxTargets.Location = new System.Drawing.Point(162, 465);
             this.checkedListBoxTargets.Name = "checkedListBoxTargets";
             this.checkedListBoxTargets.Size = new System.Drawing.Size(1025, 208);
@@ -254,11 +253,11 @@
             // button1
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(29, 587);
+            this.button1.Location = new System.Drawing.Point(29, 599);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(120, 34);
             this.button1.TabIndex = 19;
-            this.button1.Text = "button1";
+            this.button1.Text = "Test";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -267,66 +266,28 @@
             // 
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetToolStripMenuItem,
             this.aboutToolStripMenuItem1,
+            this.resetAllToolStripMenuItem,
             this.exitToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1200, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 28);
             this.menuStrip1.TabIndex = 20;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // resetToolStripMenuItem
-            // 
-            this.resetToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetAllToolStripMenuItem,
-            this.targetFilesToolStripMenuItem});
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(72, 26);
-            this.resetToolStripMenuItem.Text = "Actions";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
-            // 
-            // resetAllToolStripMenuItem
-            // 
-            this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
-            this.resetAllToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
-            this.resetAllToolStripMenuItem.Text = "Reset All";
-            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllToolStripMenuItem_Click);
-            // 
-            // targetFilesToolStripMenuItem
-            // 
-            this.targetFilesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.checkAllToolStripMenuItem,
-            this.checkNoneToolStripMenuItem});
-            this.targetFilesToolStripMenuItem.Name = "targetFilesToolStripMenuItem";
-            this.targetFilesToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
-            this.targetFilesToolStripMenuItem.Text = "Target Files";
-            // 
-            // checkAllToolStripMenuItem
-            // 
-            this.checkAllToolStripMenuItem.Name = "checkAllToolStripMenuItem";
-            this.checkAllToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
-            this.checkAllToolStripMenuItem.Text = "Check All";
-            this.checkAllToolStripMenuItem.Click += new System.EventHandler(this.checkAllToolStripMenuItem_Click);
-            // 
-            // checkNoneToolStripMenuItem
-            // 
-            this.checkNoneToolStripMenuItem.Name = "checkNoneToolStripMenuItem";
-            this.checkNoneToolStripMenuItem.Size = new System.Drawing.Size(171, 26);
-            this.checkNoneToolStripMenuItem.Text = "Check None";
-            this.checkNoneToolStripMenuItem.Click += new System.EventHandler(this.checkNoneToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(64, 26);
-            this.aboutToolStripMenuItem1.Text = "About";
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(71, 24);
+            this.aboutToolStripMenuItem1.Text = "Version";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
             // exitToolStripMenuItem1
             // 
+            this.exitToolStripMenuItem1.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.exitToolStripMenuItem1.BackColor = System.Drawing.Color.Pink;
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(47, 26);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(47, 24);
             this.exitToolStripMenuItem1.Text = "Exit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
             // 
@@ -375,12 +336,41 @@
             this.label6.TabIndex = 25;
             this.label6.Text = "5";
             // 
+            // buttonCheckAll
+            // 
+            this.buttonCheckAll.Location = new System.Drawing.Point(29, 505);
+            this.buttonCheckAll.Name = "buttonCheckAll";
+            this.buttonCheckAll.Size = new System.Drawing.Size(120, 34);
+            this.buttonCheckAll.TabIndex = 26;
+            this.buttonCheckAll.Text = "Check All";
+            this.buttonCheckAll.UseVisualStyleBackColor = true;
+            this.buttonCheckAll.Click += new System.EventHandler(this.buttonCheckAll_Click);
+            // 
+            // buttonCheckNone
+            // 
+            this.buttonCheckNone.Location = new System.Drawing.Point(29, 545);
+            this.buttonCheckNone.Name = "buttonCheckNone";
+            this.buttonCheckNone.Size = new System.Drawing.Size(120, 34);
+            this.buttonCheckNone.TabIndex = 27;
+            this.buttonCheckNone.Text = "Uncheck All";
+            this.buttonCheckNone.UseVisualStyleBackColor = true;
+            this.buttonCheckNone.Click += new System.EventHandler(this.buttonCheckNone_Click);
+            // 
+            // resetAllToolStripMenuItem
+            // 
+            this.resetAllToolStripMenuItem.Name = "resetAllToolStripMenuItem";
+            this.resetAllToolStripMenuItem.Size = new System.Drawing.Size(79, 24);
+            this.resetAllToolStripMenuItem.Text = "Clear All";
+            this.resetAllToolStripMenuItem.Click += new System.EventHandler(this.resetAllToolStripMenuItem_Click_1);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1200, 686);
+            this.Controls.Add(this.buttonCheckNone);
+            this.Controls.Add(this.buttonCheckAll);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -413,7 +403,7 @@
             this.Name = "Form1";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NavGator v0.4";
+            this.Text = "NavGator v0.5";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -452,11 +442,9 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.Button buttonCheckAll;
+        private System.Windows.Forms.Button buttonCheckNone;
         private System.Windows.Forms.ToolStripMenuItem resetAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem targetFilesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkNoneToolStripMenuItem;
     }
 }
 
